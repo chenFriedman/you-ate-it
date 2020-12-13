@@ -8,11 +8,15 @@ interface IProps {
 }
 
 export const Form: React.FC<IProps> = () => {
+  
 
   
   return (
-    <div className='form-container'>
-    </div>
+    <>
+      <div className='form-header'></div>
+      <div className='form-container'> LoggedIn :)
+      </div>
+    </>
   )
 }
 export default Form
