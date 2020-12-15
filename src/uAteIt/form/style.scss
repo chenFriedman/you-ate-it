@@ -1,10 +1,25 @@
-.form-header {
-    background-color: lightgray;
-    height: 7%;
-}
-.form-container {
-    width: 60%;
-    background: white;
-    height: 100%;
+#full-width-tabpanel-0, #full-width-tabpanel-1 {
+    background-color: white;
     float: right;
+    width: 60%;
+    height: 100%;
+    // display: flex;
+    // justify-content: center;
+    .MuiBox-root-16 {
+        width: 100%
+    }
+}
+button.MuiTab-fullWidth {
+    flex-grow: unset;
+}
+div.MuiTabs-flexContainer {
+    justify-content: flex-start;
+    flex-direction: row-reverse;
+}
+header.MuiAppBar-colorDefault {
+    background-color: lightgray;
+}
+.MuiTab-textColorPrimary.Mui-selected {
+    background: lightblue;
+    border: 2px solid;
 }

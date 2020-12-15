@@ -14,7 +14,6 @@ export const GoogleLogIn: React.FC<IProps> = ({onSubmit, setUserName}: IProps) =
   const responseGoogle = (response: any) => {
     onSubmit(true);
     setUserName(response.profileObj.name);
-    console.log(response.profileObj.name);
     // console.log("LoginScreen.js.js 21 | ", result.user.givenName, result.user.familyName, result.user.email, result.user.photoUrl);
 
   }

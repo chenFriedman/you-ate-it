@@ -8,7 +8,6 @@ interface IProps {
 }
 
 export const YouAteIt: React.FC<IProps> = ({isLoggedIn, userName}: IProps) => {
-  console.log(isLoggedIn)
   return (
     <div className='header-container'>
      <Grid
