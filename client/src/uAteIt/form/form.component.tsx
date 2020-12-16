@@ -2,7 +2,8 @@ import React from 'react';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { AppBar , Tabs, Tab, Box, Button} from '@material-ui/core';
 import './style.scss'
-import FormTab from '../form-tab/form-tab.component'
+import DetailsTab from '../details-tab/details-tab.component'
+import FoodTab from '../food-tab/food-tab.component'
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -36,19 +37,44 @@ const useStyles = makeStyles((theme: Theme) => ({
     backgroundColor: '#ababab',
     width: '100%',
     float: 'right',
-    height: '100%'
+    height: '92%'
   },
 }));
 
 export default function FullWidthTabs() {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
+  const tempFavoritFoodList =  [
+    {key: "pastrama", value: "פסטרמה"},
+    // {key: "brokoli", value: "ברוקולי"},
+    // {key: "regel", value: "רגל"},
+    // {key: "bread", value: "לחם מחמצת"},
+    // {key: "meatball", value: "קציצת סרטן"}
+]
+  const [foodList, setFoodList] = React.useState(tempFavoritFoodList);
   const [ isPrivateDetailsSubmited, setIsPrivateDetailsSubmited] = React.useState(false)
   const [ isFavoriteFoodsSubmited, setIsFavoriteFoodsSubmited] = React.useState(false)
 
+  React.useEffect(() => {
+    getfoodsList()
+          .then((res: { foodslist: React.SetStateAction<{ key: string; value: string; }[]>; }) => setFoodList(res.foodslist))
+          .catch((err: any) => console.log(err));
+  });
+
+  const getfoodsList = async () => {
+    const response = await fetch('/api/getfoodslist');
+    const body = await response.json();
+    if (response.status !== 200) throw Error(body.message);
+    return body;
+  }
+  
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
   };
+
+  const submit = () => {
+    console.log('submit')
+  }
 
   return (
     <div className={classes.root}>
@@ -66,22 +92,18 @@ export default function FullWidthTabs() {
         </Tabs>
       </AppBar>
         <TabPanel value={value} index={0} >
-          <FormTab 
-            tabNumber={1} 
+          <DetailsTab 
             setIsFormSubmited={setIsPrivateDetailsSubmited}
           />
-          <Button variant="contained" color="primary">המשך</Button>
+          <Button variant="contained" color="primary" onClick={()=>setValue(1)}>המשך</Button>
         </TabPanel>
         <TabPanel value={value} index={1} >
-          <FormTab 
-            tabNumber={2}
+          <FoodTab 
+            foodList = {foodList}
             setIsFormSubmited={setIsFavoriteFoodsSubmited}
           />
-          <Button variant="contained" color="primary">סיום</Button>
+          <Button variant="contained" color="primary" onClick={submit}>סיום</Button>
         </TabPanel>
     </div>
   );
 }
-
-
-

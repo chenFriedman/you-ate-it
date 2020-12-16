@@ -20,7 +20,7 @@ export const YouAteIt: React.FC<IProps> = ({isLoggedIn, userName}: IProps) => {
           <Typography className='title'>אכלת אותה</Typography>
           <Avatar src='/hamburger.jpeg' />
         </div>
-        {isLoggedIn && userName && <Typography className='title'><span>{userName}</span> שלום </Typography>}
+        {isLoggedIn && userName && <Typography className='title'><span className='bold'>{userName}</span> שלום </Typography>}
         </Grid>
     </div>
   )

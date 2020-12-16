@@ -1,0 +1,35 @@
+.form-container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    margin: 70px 40px 70px 70px;
+    // float: right;
+
+    .subtitle {
+        text-align: right;
+        margin-bottom: 30px;
+    }
+    
+    .MuiTextField-root {
+        width: 160px;
+        margin: 30px;
+    }
+    .field {
+        text-align: right;
+    }
+    .row {
+        display: flex;
+        flex-direction: row-reverse; 
+        .beer-field {
+            width: 170px;
+            margin: 30px;
+            label {
+                font-size: 0.8rem;
+            }
+            div {
+                width: 170px
+            }   
+        }
+    }
+}

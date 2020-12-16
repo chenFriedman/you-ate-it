@@ -4,11 +4,16 @@
     padding: 2px 15px;
     .title {
         font-size: 2.5rem;
+        @media only screen and (max-width: 600px) {
+            font-size: 2rem;
+        }
     }
     .logo {
         flex-direction: row;
         display: flex;
-        
+    }
+    .bold {
+        font-weight: 700;
     }
     .MuiGrid-align-items-xs-center{
         height: 100%;
