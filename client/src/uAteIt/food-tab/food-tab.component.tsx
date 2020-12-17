@@ -1,5 +1,5 @@
 import React from 'react';
-import {Checkbox, FormControlLabel, FormControl} from '@material-ui/core';
+import {Checkbox, FormControlLabel, FormControl, TextField} from '@material-ui/core';
 import './style.scss'
 
   interface IProps {
@@ -11,8 +11,7 @@ import './style.scss'
 
   const emptyFoodFormState: any= { pastrama: false, brokoli: false, regel: false, bread: false, meatball: false, else: false}
   const [foodFormState, setFoodFormState] = React.useState(emptyFoodFormState)
-  const checkIfElseEntered = () => {
-  }
+  const [elseValue, setElseValue] = React.useState('')
 
   const renderFavoriteFoodsTab = () => {
     const options = foodList.map((option: { key: string; value: string }) => (
@@ -44,6 +43,12 @@ import './style.scss'
               label="אחר"
               labelPlacement="start"
             />
+            {foodFormState.else && <TextField 
+              id="field" 
+              label="הקלד מאכל אחר" 
+              value={elseValue}
+              onChange={e => setElseValue(e.target.value)}
+            />}
         </FormControl>
     );
   }
