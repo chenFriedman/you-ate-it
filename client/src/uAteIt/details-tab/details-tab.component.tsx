@@ -1,17 +1,27 @@
 import React from 'react';
-import {TextField, Select, InputLabel} from '@material-ui/core';
+import {TextField, Select, InputLabel, Button} from '@material-ui/core';
 import './style.scss'
   interface IProps {
-    setIsFormSubmited: (value: boolean) => void
+    onSubmit: () => void
   }
 
-  export default function DetailsTab({setIsFormSubmited}: IProps) {
+  export default function DetailsTab({onSubmit}: IProps) {
 
   const emptyFormState: any= { firstName:'', lastName:'', birthday:'', id:'', phone:'', beer:''}
   const [formState, setFormState] = React.useState(emptyFormState)
   const [beersList, setbeersList] = React.useState([])
   const [toShowBeerField, setToShowBeerField] = React.useState(false)
-  
+  const [showErrorMsg, setShowErrorMsg] = React.useState(false)
+
+  const updateFormStatus = () => {
+    if (formState.firstName && formState.lastName && formState.birthday &&  formState.id && formState.phone && (!toShowBeerField || formState.beer)) {
+      onSubmit()
+      showErrorMsg && setShowErrorMsg(false)
+    } else {
+      setShowErrorMsg(true)
+    }
+  }
+
   const MILLISECONDS_IN_A_YEAR = 1000*60*60*24*365;
   const get_age = (time: any) => {
       let date_array = time.split('-')
@@ -113,6 +123,12 @@ import './style.scss'
             />
           </span>
         </div>
+        {showErrorMsg && <div>please fill all fields</div>}
+        <Button 
+          variant="contained" 
+          color="primary" 
+          onClick={updateFormStatus}>סיום
+        </Button>
       </form>
     );
 }

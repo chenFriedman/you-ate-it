@@ -74,7 +74,8 @@ import './style.scss'
       <Button 
         variant="contained" 
         color="primary" 
-        onClick={isFormValid ? onSubmit : () => setShowErrorMsg(true)}>סיום</Button>
+        onClick={isFormValid ? onSubmit : () => setShowErrorMsg(true)}>סיום
+      </Button>
     </div>
   );
 }
