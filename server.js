@@ -22,3 +22,11 @@ app.get('/api/getfoodslist', (req, res) => {
   let foodlistFile = JSON.parse(rawdata);
   res.send({ foodslist: foodlistFile });
 });
+
+app.post('api/submit'), (req, res) => {
+  // insert values to privateDetails in DB
+  // if there is else value
+    // add else value to ./foodlist.json
+    // inset else value to favoritFoodOptions in DB
+  // insert values to favoritFood inDB
+}
