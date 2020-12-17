@@ -7,15 +7,15 @@ import './style.scss'
 interface IProps {
   onSubmit: (value: boolean) => void
   setUserName: (value: string) => void
+  setEmail: (value: string) => void
 }
 
-export const GoogleLogIn: React.FC<IProps> = ({onSubmit, setUserName}: IProps) => {
+export const GoogleLogIn: React.FC<IProps> = ({onSubmit, setUserName, setEmail}: IProps) => {
   
   const responseGoogle = (response: any) => {
     onSubmit(true);
     setUserName(response.profileObj.name);
-    // console.log("LoginScreen.js.js 21 | ", result.user.givenName, result.user.familyName, result.user.email, result.user.photoUrl);
-
+    setEmail(response.profileObj.email)
   }
   
   return (

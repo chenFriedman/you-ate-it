@@ -40,8 +40,12 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: '92%'
   },
 }));
+interface IProps {
+  email: any
+  
+}
 
-export default function FullWidthTabs() {
+export default function Form({email}: IProps) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
   const tempFavoritFoodList =  [{key: "pastrama", value: "פסטרמה"}]
@@ -61,7 +65,7 @@ export default function FullWidthTabs() {
   }
 
   const submit = () => {
-    console.log('submit')
+    console.log('submit', email)    
     //send api post request with all the data
     //logout the user
   }
