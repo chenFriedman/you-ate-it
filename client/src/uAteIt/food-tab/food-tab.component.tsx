@@ -1,13 +1,13 @@
 import React from 'react';
 import {Checkbox, FormControlLabel, FormControl, TextField, Button} from '@material-ui/core';
 import './style.scss'
-
   interface IProps {
     onSubmit: () => void
     foodList: any
+    setElseValueMainForm: (value: any) => void
   }
 
-  export default function FoodTab({onSubmit, foodList}: IProps) {
+  export default function FoodTab({onSubmit, foodList, setElseValueMainForm}: IProps) {
 
   const emptyFoodFormState: any= { pastrama: false, brokoli: false, regel: false, bread: false, meatball: false, else: false}
   const [foodFormState, setFoodFormState] = React.useState(emptyFoodFormState)
@@ -18,6 +18,13 @@ import './style.scss'
   const updateFormStatus = () => {
     setIsFormValid(true)
     showErrorMsg && setShowErrorMsg(false)
+  }
+
+  const elseValueEntered = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    if(foodFormState.else)
+    setElseValue(e.target.value)
+    const elseObject = {"key": e.target.value, "value": e.target.value}
+    setElseValueMainForm(elseObject)          
   }
   
   const renderFavoriteFoodsTab = () => {
@@ -49,7 +56,6 @@ import './style.scss'
                   value={foodFormState.else} 
                   onChange={() => {
                     setFoodFormState({...foodFormState, else: !foodFormState.else}); 
-                    !foodFormState.else && elseValue && !isFormValid && updateFormStatus()
                   }}
                 />
               }
@@ -60,7 +66,10 @@ import './style.scss'
               id="field" 
               label="הקלד מאכל אחר" 
               value={elseValue}
-              onChange={e => setElseValue(e.target.value)}
+              onChange={e => {
+                elseValueEntered(e)
+                foodFormState.else && elseValue!=='' && updateFormStatus()
+                console.log(foodFormState.else , elseValue!=='' , !isFormValid)}}
             />}
         </FormControl>
     );

@@ -11,22 +11,28 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
-app.get('/api/getbeerslist', (req, res) => {
+app.get('/form/beerslist', (req, res) => {
   let rawdata = fs.readFileSync('./beerslist.json');
   let beerslistFile = JSON.parse(rawdata);
   res.send({ beerslist: beerslistFile.beerList });
 });
 
-app.get('/api/getfoodslist', (req, res) => {
+app.get('/form/foodslist', (req, res) => {
   let rawdata = fs.readFileSync('./foodlist.json');
   let foodlistFile = JSON.parse(rawdata);
   res.send({ foodslist: foodlistFile });
 });
 
-app.post('api/submit'), (req, res) => {
-  // insert values to privateDetails in DB
-  // if there is else value
-    // add else value to ./foodlist.json
-    // inset else value to favoritFoodOptions in DB
-  // insert values to favoritFood inDB
-}
+app.post('/form/elsevalue', (req, res) => {
+  const data = JSON.stringify(req.body)
+    var fs = require('fs');
+     fs.writeFile('./foodlist.json', data, function(err, result) {
+        if(err) console.log('error', err);
+      });
+      // inset else value to favoritFoodOptions in DB
+  }); 
+
+  
+// insert email to DB
+// insert values to privateDetails in DB
+// insert values to favoritFood inDB

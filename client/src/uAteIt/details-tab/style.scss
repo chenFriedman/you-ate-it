@@ -18,6 +18,9 @@
     .field {
         text-align: right;
     }
+    #field {
+        direction: rtl;
+    }
     .row {
         display: flex;
         flex-direction: row-reverse; 

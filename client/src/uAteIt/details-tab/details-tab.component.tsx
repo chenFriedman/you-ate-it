@@ -44,7 +44,7 @@ import './style.scss'
   }
 
   const getBeersList = async () => {
-    const response = await fetch('/api/getbeerslist');
+    const response = await fetch('/form/beerslist');
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
     return body;
@@ -77,18 +77,24 @@ import './style.scss'
               label="שם פרטי" 
               value={formState.firstName}
               onChange={e => setFormState({...formState, firstName: e.target.value})}
+              error={formState.firstName!=='' && (!/^[a-z\u0590-\u05fe]+$/i.test(formState.firstName) || formState.firstName.length > 50)}
+              helperText={formState.firstName!=='' && ( !/^[a-z\u0590-\u05fe]+$/i.test(formState.firstName) || formState.firstName.length > 50) ? 'שם מכיל אותיות בלבד' : ' '}
             />
             <TextField 
               id="field" 
               label="שם משפחה" 
               value={formState.lastName}
               onChange={e => setFormState({...formState, lastName: e.target.value})}
+              error={formState.lastName!=='' && (!/^[a-z\u0590-\u05fe]+$/i.test(formState.lastName) || formState.lastName.length > 50)}
+              helperText={ formState.lastName!=='' && (!/^[a-z\u0590-\u05fe]+$/i.test(formState.lastName) || formState.lastName.length > 50) ? 'שם מכיל אותיות בלבד' : ' '}
             />
           </span>
           <span className='row'>
             <TextField
               id="date field"
               label="תאריך לידה"
+              error={get_age(formState.birthday) < 0 }
+              helperText={get_age(formState.birthday) < 0 ? 'לא ניתן לבחור תאריך עתידי' : ' '}
               type="date"
               className={'date-field'}
               InputLabelProps={{

@@ -42,14 +42,15 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 interface IProps {
   email: any
-  
+  logout: () => void
 }
 
-export default function Form({email}: IProps) {
+export default function Form({email, logout}: IProps) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
   const tempFavoritFoodList =  [{key: "pastrama", value: "פסטרמה"}]
   const [foodList, setFoodList] = React.useState(tempFavoritFoodList);
+  const [elseValue, setElseValue] = React.useState('');
 
   React.useEffect(() => {
     getfoodsList()
@@ -58,14 +59,27 @@ export default function Form({email}: IProps) {
   });
 
   const getfoodsList = async () => {
-    const response = await fetch('/api/getfoodslist');
+    const response = await fetch('/form/foodslist');
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
     return body;
   }
 
-  const submit = () => {
-    console.log('submit', email)    
+  const addElseValue = async () => {
+    const data = [...foodList, elseValue]
+    await fetch('/form/elsevalue', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+  }
+
+  const submit = async () => {
+    elseValue!=='' && addElseValue()
+    console.log(email)
+    logout()
     //send api post request with all the data
     //logout the user
   }
@@ -93,6 +107,7 @@ export default function Form({email}: IProps) {
           <FoodTab 
             foodList = {foodList}
             onSubmit={submit}
+            setElseValueMainForm={setElseValue}
           />
         </TabPanel>
     </div>
