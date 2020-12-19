@@ -5,9 +5,10 @@ import './style.scss'
     onSubmit: () => void
     foodList: any
     setElseValueMainForm: (value: any) => void
+    setFavoritFood: (favoriteFood: any) => void
   }
 
-  export default function FoodTab({onSubmit, foodList, setElseValueMainForm}: IProps) {
+  export default function FoodTab({onSubmit, foodList, setElseValueMainForm, setFavoritFood}: IProps) {
 
   const emptyFoodFormState: any= { pastrama: false, brokoli: false, regel: false, bread: false, meatball: false, else: false}
   const [foodFormState, setFoodFormState] = React.useState(emptyFoodFormState)
@@ -27,6 +28,16 @@ import './style.scss'
     setElseValueMainForm(elseObject)          
   }
   
+  const submit = () => {
+    if (isFormValid) {
+    console.log(foodList, foodFormState, elseValue)
+    setFavoritFood({...foodFormState})
+    onSubmit()
+  } else {
+    setShowErrorMsg(true)
+  }
+}
+
   const renderFavoriteFoodsTab = () => {
     const options = foodList.map((option: { key: string; value: string }) => (
       <FormControlLabel
@@ -69,7 +80,7 @@ import './style.scss'
               onChange={e => {
                 elseValueEntered(e)
                 foodFormState.else && elseValue!=='' && updateFormStatus()
-                console.log(foodFormState.else , elseValue!=='' , !isFormValid)}}
+              }}
             />}
         </FormControl>
     );
@@ -83,7 +94,7 @@ import './style.scss'
       <Button 
         variant="contained" 
         color="primary" 
-        onClick={isFormValid ? onSubmit : () => setShowErrorMsg(true)}>סיום
+        onClick={isFormValid ? submit : () => setShowErrorMsg(true)}>סיום
       </Button>
     </div>
   );

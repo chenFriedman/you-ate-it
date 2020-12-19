@@ -51,6 +51,9 @@ export default function Form({email, logout}: IProps) {
   const tempFavoritFoodList =  [{key: "pastrama", value: "פסטרמה"}]
   const [foodList, setFoodList] = React.useState(tempFavoritFoodList);
   const [elseValue, setElseValue] = React.useState('');
+  const [favoritFood, setFavoritFood] = React.useState([]);
+  const [privateDetails, setPrivateDetails] = React.useState({email: email, firstName:'', lastName:'', birthday:'', id:'', phone:'', beer:''})
+  // email, firstName, lastName, birthDate, id, phone
 
   React.useEffect(() => {
     getfoodsList()
@@ -76,12 +79,60 @@ export default function Form({email, logout}: IProps) {
     });
   }
 
+  const insertNewFoodOptionToDB = async () => {
+    const data =  {'option': elseValue}
+    await fetch('/favoritFoodOptions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+  }
+
+  const insertUser = async () => {
+    const data =  {'email': email}
+
+    await fetch('/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+  }
+  
+  const insertPrivateDetails = async () => {
+    const data = {...privateDetails, email: email}
+    console.log(data)
+    await fetch('/privateDetails', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+  }
+
+  const insertfavoritFood = async () => {
+    const data = {...favoritFood, beer: privateDetails.beer, email: email}
+    console.log(data)
+    // await fetch('/favoritFood', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify(data),
+    // });
+  }
+
   const submit = async () => {
-    elseValue!=='' && addElseValue()
-    console.log(email)
+    elseValue!=='' && addElseValue();
+    elseValue!=='' && insertNewFoodOptionToDB()
+    insertUser()
+    insertPrivateDetails()
+    insertfavoritFood()
     logout()
-    //send api post request with all the data
-    //logout the user
   }
 
   return (
@@ -101,6 +152,7 @@ export default function Form({email, logout}: IProps) {
         <TabPanel value={value} index={0} >
           <DetailsTab 
             onSubmit={()=>setValue(1)}
+            setPrivateDetails= {setPrivateDetails}
           />
         </TabPanel>
         <TabPanel value={value} index={1} >
@@ -108,6 +160,7 @@ export default function Form({email, logout}: IProps) {
             foodList = {foodList}
             onSubmit={submit}
             setElseValueMainForm={setElseValue}
+            setFavoritFood = {setFavoritFood}
           />
         </TabPanel>
     </div>

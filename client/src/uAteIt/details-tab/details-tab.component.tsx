@@ -1,11 +1,12 @@
 import React from 'react';
 import {TextField, Select, InputLabel, Button} from '@material-ui/core';
-import './style.scss'
+import './style.scss';
   interface IProps {
     onSubmit: () => void
+    setPrivateDetails: (privateDetails: any) => void
   }
 
-  export default function DetailsTab({onSubmit}: IProps) {
+  export default function DetailsTab({onSubmit, setPrivateDetails}: IProps) {
 
   const emptyFormState: any= { firstName:'', lastName:'', birthday:'', id:'', phone:'', beer:''}
   const [formState, setFormState] = React.useState(emptyFormState)
@@ -15,6 +16,7 @@ import './style.scss'
 
   const updateFormStatus = () => {
     if (formState.firstName && formState.lastName && formState.birthday &&  formState.id && formState.phone && (!toShowBeerField || formState.beer)) {
+      setPrivateDetails({...formState})
       onSubmit()
       showErrorMsg && setShowErrorMsg(false)
     } else {
