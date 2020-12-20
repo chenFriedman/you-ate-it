@@ -98,6 +98,16 @@ app.get('/privateDetails', (req,res) => {
   })
 })
 
+app.post('/favoritFood', (request, response) => {
+  let { email, favoritbeer, favoritFood } = request.body  
+  db.query('INSERT INTO privateDetails (email, favoritbeer, favoritFood) VALUES ($1, $2, $3)', [email, favoritbeer, favoritFood], (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(201).send(`User added with ID: ${results.insertId}`)
+  })
+})
+
 app.get('/favoritFood', (req,res) => {
   db.query('SELECT * FROM favoritFood', (error, results) => {
     if (error) {

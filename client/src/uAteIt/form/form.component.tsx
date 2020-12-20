@@ -52,8 +52,7 @@ export default function Form({email, logout}: IProps) {
   const [foodList, setFoodList] = React.useState(tempFavoritFoodList);
   const [elseValue, setElseValue] = React.useState('');
   const [favoritFood, setFavoritFood] = React.useState([]);
-  const [privateDetails, setPrivateDetails] = React.useState({email: email, firstName:'', lastName:'', birthday:'', id:'', phone:'', beer:''})
-  // email, firstName, lastName, birthDate, id, phone
+  const [privateDetails, setPrivateDetails] = React.useState({email: email, firstName:'', lastName:'', birthday:'', id:'', phone:''})
 
   React.useEffect(() => {
     getfoodsList()
@@ -104,7 +103,6 @@ export default function Form({email, logout}: IProps) {
   
   const insertPrivateDetails = async () => {
     const data = {...privateDetails, email: email}
-    console.log(data)
     await fetch('/privateDetails', {
       method: 'POST',
       headers: {
@@ -115,15 +113,14 @@ export default function Form({email, logout}: IProps) {
   }
 
   const insertfavoritFood = async () => {
-    const data = {...favoritFood, beer: privateDetails.beer, email: email}
-    console.log(data)
-    // await fetch('/favoritFood', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(data),
-    // });
+    const data = {...favoritFood, favoritBeer: 'negev', email: email}
+    await fetch('/favoritFood', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
   }
 
   const submit = async () => {
@@ -131,7 +128,7 @@ export default function Form({email, logout}: IProps) {
     elseValue!=='' && insertNewFoodOptionToDB()
     insertUser()
     insertPrivateDetails()
-    insertfavoritFood()
+    // insertfavoritFood()
     logout()
   }
 

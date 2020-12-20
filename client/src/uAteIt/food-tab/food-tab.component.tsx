@@ -30,7 +30,6 @@ import './style.scss'
   
   const submit = () => {
     if (isFormValid) {
-    console.log(foodList, foodFormState, elseValue)
     setFavoritFood({...foodFormState})
     onSubmit()
   } else {
