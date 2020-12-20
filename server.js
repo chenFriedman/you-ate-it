@@ -9,14 +9,7 @@ const fs = require('fs');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const Pool = require('pg').Pool
-const db = new Pool({
-  user: 'me',
-  host: 'localhost',
-  database: 'api',
-  password: 'password',
-  port: 5432,
-})
+const db = require('./queries');
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
@@ -40,79 +33,11 @@ app.post('/form/elsevalue', (req, res) => {
     });
 });
 
-app.post('/users', (request, response) => {
-  const { email } = request.body  
-  db.query('INSERT INTO users (email) VALUES ($1)', [email], (error, results) => {
-    if (error) {
-      throw error
-    }
-    response.status(201).send(`User added with ID: ${results.insertId}`)
-  })
-})
-
-app.get('/users', (req,res) => {
-  db.query('SELECT * FROM users ORDER BY id ASC', (error, results) => {
-    if (error) {
-      throw error
-    }
-    res.status(200).json(results.rows)
-  })
-
-})
-
-app.post('/favoritFoodOptions', (request, response) => {
-  const { option } = request.body  
-  db.query('INSERT INTO favoritFoodOptions (foodType) VALUES ($1)', [option], (error, results) => {
-    if (error) {
-      throw error
-    }
-    response.status(201).send(`User added with ID: ${results.insertId}`)
-  })
-})
-
-app.get('/favoritFoodOptions', (req,res) => {
-  db.query('SELECT * FROM favoritFoodOptions ORDER BY id ASC', (error, results) => {
-    if (error) {
-      throw error
-    }
-    res.status(200).json(results.rows)
-  })
-})
-
-app.post('/privateDetails', (request, response) => {
-const { email, firstName, lastName, birthDate, id, phone } = request.body  
-  db.query('INSERT INTO privateDetails (email, firstName, lastName, birthDate, id, phone) VALUES ($1, $2, $3, $4, $5, $6)', [email, firstName, lastName, birthDate, id, phone], (error, results) => {
-    if (error) {
-      throw error
-    }
-    response.status(201).send(`User added with ID: ${results.insertId}`)
-  })
-})
-
-app.get('/privateDetails', (req,res) => {
-  db.query('SELECT * FROM privateDetails ORDER BY id ASC', (error, results) => {
-    if (error) {
-      throw error
-    }
-    res.status(200).json(results.rows)
-  })
-})
-
-app.post('/favoritFood', (request, response) => {
-  let { email, favoritbeer, favoritFood } = request.body  
-  db.query('INSERT INTO privateDetails (email, favoritbeer, favoritFood) VALUES ($1, $2, $3)', [email, favoritbeer, favoritFood], (error, results) => {
-    if (error) {
-      throw error
-    }
-    response.status(201).send(`User added with ID: ${results.insertId}`)
-  })
-})
-
-app.get('/favoritFood', (req,res) => {
-  db.query('SELECT * FROM favoritFood', (error, results) => {
-    if (error) {
-      throw error
-    }
-    res.status(200).json(results.rows)
-  })
-})
+app.post('/users', db.createUser)
+app.get('/users', db.getUsers)
+app.post('/favoritFoodOptions', db.createFavoritFoodOptions)
+app.get('/favoritFoodOptions', db.getFavoritFoodOptions)
+app.post('/privateDetails', db.createPrivateDetails)
+app.get('/privateDetails', db.getPrivateDetails)
+app.post('/favoritFood', db.createFavoritFood)
+app.get('/favoritFood', db.getFavoritFood)
