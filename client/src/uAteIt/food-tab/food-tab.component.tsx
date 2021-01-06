@@ -2,15 +2,19 @@ import React from 'react';
 import {Checkbox, FormControlLabel, FormControl, TextField, Button} from '@material-ui/core';
 import './style.scss'
   interface IProps {
-    onSubmit: () => void
+    onSubmit: (favoritFoodselected: any) => void
     foodList: any
     setElseValueMainForm: (value: any) => void
-    setFavoritFood: (favoriteFood: any) => void
+    // setFavoritFood: (favoriteFood: any) => void
   }
 
-  export default function FoodTab({onSubmit, foodList, setElseValueMainForm, setFavoritFood}: IProps) {
-
-  const emptyFoodFormState: any= { pastrama: false, brokoli: false, regel: false, bread: false, meatball: false, else: false}
+  export default function FoodTab({onSubmit, foodList, setElseValueMainForm, //setFavoritFood
+  }: IProps) {
+    const emptyFoodFormState:any = {else: false}
+    foodList.map((x: { key: string; }) => {
+      let val = x.key
+      emptyFoodFormState[val]=false
+      })
   const [foodFormState, setFoodFormState] = React.useState(emptyFoodFormState)
   const [elseValue, setElseValue] = React.useState('')
   const [isFormValid, setIsFormValid] = React.useState(false)
@@ -30,15 +34,20 @@ import './style.scss'
   
   const submit = () => {
     if (isFormValid) {
-    setFavoritFood({...foodFormState})
-    onSubmit()
+      let temp: any = {...foodFormState}
+      if (foodFormState.else) {
+        let tmpelseValue = elseValue
+        temp[tmpelseValue]=true  
+      }
+      delete temp.else;
+      onSubmit(temp)
   } else {
     setShowErrorMsg(true)
   }
 }
 
   const renderFavoriteFoodsTab = () => {
-    const options = foodList.map((option: { key: string; value: string }) => (
+    const options = foodList.map((option: { key: string; value: string}) => (
       <FormControlLabel
         key={option.key}
         control={

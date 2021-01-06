@@ -14,6 +14,11 @@
   dependencies:
     defer-to-connect "^1.0.1"
 
+"@types/pg-format@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@types/pg-format/-/pg-format-1.0.1.tgz#a197fe7a228d53f6ab00bf52b7999d74ce618074"
+  integrity sha512-TC073gk+fvWGenuE7sDEjmt33HJkNhKJ9uLRgP9O9KQGSUaN1hA7Snbr63EU9/aE1X4Zz0+1BXhSBdZCYFWXog==
+
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
@@ -1128,6 +1133,11 @@ pg-connection-string@^2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/pg-connection-string/-/pg-connection-string-2.4.0.tgz#c979922eb47832999a204da5dbe1ebf2341b6a10"
   integrity sha512-3iBXuv7XKvxeMrIgym7njT+HlZkwZqqGX4Bu9cci8xHZNT+Um1gWKqCsAzcC0d95rcKMU5WBg6YRUcHyV0HZKQ==
+
+pg-format@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/pg-format/-/pg-format-1.0.4.tgz#27734236c2ad3f4e5064915a59334e20040a828e"
+  integrity sha1-J3NCNsKtP05QZJFaWTNOIAQKgo4=
 
 pg-int8@1.0.1:
   version "1.0.1"

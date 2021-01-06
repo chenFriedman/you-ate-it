@@ -25,14 +25,6 @@ app.get('/form/foodslist', (req, res) => {
   res.send({ foodslist: foodlistFile });
 });
 
-app.post('/form/elsevalue', (req, res) => {
-  const data = JSON.stringify(req.body)
-  var fs = require('fs');
-    fs.writeFile('./foodlist.json', data, function(err, result) {
-      if(err) console.log('error', err);
-    });
-});
-
 app.post('/users', db.createUser)
 app.get('/users', db.getUsers)
 app.post('/favoritFoodOptions', db.createFavoritFoodOptions)
@@ -40,4 +32,5 @@ app.get('/favoritFoodOptions', db.getFavoritFoodOptions)
 app.post('/privateDetails', db.createPrivateDetails)
 app.get('/privateDetails', db.getPrivateDetails)
 app.post('/favoritFood', db.createFavoritFood)
+app.post('/favoritBeer', db.createFavoritBeer)
 app.get('/favoritFood', db.getFavoritFood)

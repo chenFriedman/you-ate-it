@@ -4,19 +4,21 @@ import './style.scss';
   interface IProps {
     onSubmit: () => void
     setPrivateDetails: (privateDetails: any) => void
+    setSelectedBeer: (value: string) => void
   }
 
-  export default function DetailsTab({onSubmit, setPrivateDetails}: IProps) {
+  export default function DetailsTab({onSubmit, setPrivateDetails, setSelectedBeer}: IProps) {
 
-  const emptyFormState: any= { firstName:'', lastName:'', birthday:'', id:'', phone:'', beer:''}
+  const emptyFormState: any= { firstName:'', lastName:'', birthdate:'', id:'', phone:'', beer:''}
   const [formState, setFormState] = React.useState(emptyFormState)
   const [beersList, setbeersList] = React.useState([])
   const [toShowBeerField, setToShowBeerField] = React.useState(false)
   const [showErrorMsg, setShowErrorMsg] = React.useState(false)
 
   const updateFormStatus = () => {
-    if (formState.firstName && formState.lastName && formState.birthday &&  formState.id && formState.phone && (!toShowBeerField || formState.beer)) {
+    if (formState.firstName && formState.lastName && formState.birthdate &&  formState.id && formState.phone && (!toShowBeerField || formState.beer)) {
       setPrivateDetails({...formState})
+      toShowBeerField && setSelectedBeer(formState.beer)
       onSubmit()
       showErrorMsg && setShowErrorMsg(false)
     } else {
@@ -95,17 +97,17 @@ import './style.scss';
             <TextField
               id="date field"
               label="תאריך לידה"
-              error={get_age(formState.birthday) < 0 }
-              helperText={get_age(formState.birthday) < 0 ? 'לא ניתן לבחור תאריך עתידי' : ' '}
+              error={get_age(formState.birthdate) < 0 }
+              helperText={get_age(formState.birthdate) < 0 ? 'לא ניתן לבחור תאריך עתידי' : ' '}
               type="date"
               className={'date-field'}
               InputLabelProps={{
                 shrink: true,
               }}
-              value={formState.birthday}
+              value={formState.birthdate}
               onChange={
                 e => {
-                  setFormState({...formState, birthday: e.target.value})
+                  setFormState({...formState, birthdate: e.target.value})
                   checkAllowdBeer(e.target.value)}}
             />
             { toShowBeerField && <span className='beer-field'>

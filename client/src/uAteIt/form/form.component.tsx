@@ -48,38 +48,27 @@ interface IProps {
 export default function Form({email, logout}: IProps) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
-  const tempFavoritFoodList =  [{key: "pastrama", value: "פסטרמה"}]
-  const [foodList, setFoodList] = React.useState(tempFavoritFoodList);
+  const [foodList, setFoodList] = React.useState([]);
   const [elseValue, setElseValue] = React.useState('');
-  const [favoritFood, setFavoritFood] = React.useState([]);
+  const [selectedBeer, setSelectedBeer] = React.useState('');
   const [privateDetails, setPrivateDetails] = React.useState({email: email, firstName:'', lastName:'', birthday:'', id:'', phone:''})
 
-  React.useEffect(() => {
+  const bringFoodList = async () =>{
     getfoodsList()
-          .then((res: { foodslist: React.SetStateAction<{ key: string; value: string; }[]>; }) => setFoodList(res.foodslist))
+      .then((res: any) => {
+        setFoodList(res)})
           .catch((err: any) => console.log(err));
-  });
+  }
 
   const getfoodsList = async () => {
-    const response = await fetch('/form/foodslist');
+    const response = await fetch('/favoritFoodOptions');
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
     return body;
   }
 
-  const addElseValue = async () => {
-    const data = [...foodList, elseValue]
-    await fetch('/form/elsevalue', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
-  }
-
   const insertNewFoodOptionToDB = async () => {
-    const data =  {'option': elseValue}
+    const data =  elseValue
     await fetch('/favoritFoodOptions', {
       method: 'POST',
       headers: {
@@ -112,8 +101,10 @@ export default function Form({email, logout}: IProps) {
     });
   }
 
-  const insertfavoritFood = async () => {
-    const data = {...favoritFood, favoritBeer: 'negev', email: email}
+  const insertfavoritFood = async (favoritFoodselected: any) => {
+    const filterSelectedFood = Object.fromEntries(Object.entries(favoritFoodselected).filter(([key, value]) => value === true))
+    var selectedFood = Object.keys(filterSelectedFood).map((key) => [email, key]);
+    const data = selectedFood
     await fetch('/favoritFood', {
       method: 'POST',
       headers: {
@@ -123,12 +114,23 @@ export default function Form({email, logout}: IProps) {
     });
   }
 
-  const submit = async () => {
-    elseValue!=='' && addElseValue();
+  const insertFavoriteBeer = async () => {
+    const data = {email: email, favoriteFoodOrBeer: selectedBeer}
+    await fetch('/favoritBeer', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+  }
+
+  const submit = async (favoritFoodselected: any) => {
     elseValue!=='' && insertNewFoodOptionToDB()
     insertUser()
     insertPrivateDetails()
-    // insertfavoritFood()
+    insertfavoritFood(favoritFoodselected)
+    selectedBeer !== '' && insertFavoriteBeer()
     logout()
   }
 
@@ -148,7 +150,11 @@ export default function Form({email, logout}: IProps) {
       </AppBar>
         <TabPanel value={value} index={0} >
           <DetailsTab 
-            onSubmit={()=>setValue(1)}
+            setSelectedBeer = {setSelectedBeer}
+            onSubmit={()=>{
+              setValue(1)
+              bringFoodList()
+            }}
             setPrivateDetails= {setPrivateDetails}
           />
         </TabPanel>
@@ -157,7 +163,6 @@ export default function Form({email, logout}: IProps) {
             foodList = {foodList}
             onSubmit={submit}
             setElseValueMainForm={setElseValue}
-            setFavoritFood = {setFavoritFood}
           />
         </TabPanel>
     </div>
