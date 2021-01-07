@@ -9,7 +9,7 @@ const fs = require('fs');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const db = require('./queries');
+const db = require('./queries.tsx');
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
