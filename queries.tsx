@@ -1,7 +1,7 @@
 const Pool = require('pg').Pool
-const db = new Pool({
+const pool = new Pool({
   user: 'oactaquy',
-  host: 'suleiman.db.elephantsql.com',
+  host: 'suleiman.pool.elephantsql.com',
   database: 'oactaquy',
   password: 'SVmN2rdJwsp6yAFIpD-9p3kBtMpkbTvy',
   port: 5432,
@@ -10,7 +10,7 @@ const db = new Pool({
 
 const createUser = (request, response) => {
     const { email } = request.body  
-    db.query('INSERT INTO users (email) VALUES ($1)', [email], (error, results) => {
+    pool.query('INSERT INTO users (email) VALUES ($1)', [email], (error, results) => {
       if (error) {
         throw error
       }
@@ -19,7 +19,7 @@ const createUser = (request, response) => {
   }
   
 const getUsers = (request, response) => {
-    db.query('SELECT * FROM users ORDER BY id ASC', (error, results) => {
+    pool.query('SELECT * FROM users ORDER BY id ASC', (error, results) => {
       if (error) {
         throw error
       }
@@ -29,7 +29,7 @@ const getUsers = (request, response) => {
   
 const createFavoritFoodOptions = (request, response) => {
     const {key, value} = request.body  
-    db.query('INSERT INTO favoritFoodOptions (Key, Value) VALUES ($1, $2)', [key, value], (error, results) => {
+    pool.query('INSERT INTO favoritFoodOptions (Key, Value) VALUES ($1, $2)', [key, value], (error, results) => {
       if (error) {
         throw error
       }
@@ -38,7 +38,7 @@ const createFavoritFoodOptions = (request, response) => {
 }
 
 const getFavoritFoodOptions = (request, response) => {
-    db.query('SELECT * FROM favoritFoodOptions ORDER BY id ASC', (error, results) => {
+    pool.query('SELECT * FROM favoritFoodOptions ORDER BY id ASC', (error, results) => {
       if (error) {
         throw error
       }
@@ -48,7 +48,7 @@ const getFavoritFoodOptions = (request, response) => {
   
 const createPrivateDetails = (request, response) => {
   const { email, firstName, lastName, birthdate, id, phone } = request.body  
-    db.query('INSERT INTO privateDetails (email, firstName, lastName, birthdate, id, phone) VALUES ($1, $2, $3, $4, $5, $6)', [email, firstName, lastName, birthdate, id, phone], (error, results) => {
+    pool.query('INSERT INTO privateDetails (email, firstName, lastName, birthdate, id, phone) VALUES ($1, $2, $3, $4, $5, $6)', [email, firstName, lastName, birthdate, id, phone], (error, results) => {
       if (error) {
         throw error
       }
@@ -57,7 +57,7 @@ const createPrivateDetails = (request, response) => {
   }
   
 const getPrivateDetails = (request, response) => {
-    db.query('SELECT * FROM privateDetails ORDER BY id ASC', (error, results) => {
+    pool.query('SELECT * FROM privateDetails ORDER BY id ASC', (error, results) => {
       if (error) {
         throw error
       }
@@ -67,7 +67,7 @@ const getPrivateDetails = (request, response) => {
 
 const createFavoritBeer = (request, response) => {
   const { email, favoriteFoodOrBeer } = request.body  
-  db.query('INSERT INTO favoritFood (email, favoriteFoodOrBeer) VALUES ($1, $2)', [email, favoriteFoodOrBeer], (error, results) => {
+  pool.query('INSERT INTO favoritFood (email, favoriteFoodOrBeer) VALUES ($1, $2)', [email, favoriteFoodOrBeer], (error, results) => {
       if (error) {
         throw error
       }
@@ -78,7 +78,7 @@ const createFavoritBeer = (request, response) => {
 const createFavoritFood = (request, response) => {
   const values = request.body
   var format = require('pg-format');
-  db.query(format('INSERT INTO favoritFood (email, favoriteFoodOrBeer) VALUES %L', values)
+  pool.query(format('INSERT INTO favoritFood (email, favoriteFoodOrBeer) VALUES %L', values)
   , (error, results) => {
     if (error) {
       throw error
@@ -88,7 +88,7 @@ const createFavoritFood = (request, response) => {
   }
   
 const getFavoritFood = (request, response) => {
-    db.query('SELECT * FROM favoritFood', (error, results) => {
+    pool.query('SELECT * FROM favoritFood', (error, results) => {
       if (error) {
         throw error
       }

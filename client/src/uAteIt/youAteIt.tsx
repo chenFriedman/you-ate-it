@@ -1,9 +1,9 @@
 import * as React from 'react'
 import './style.scss'
 
-import Header from './header/header.component'
-import GoogleLogIn from './google-login/googleLogIn.component'
-import Form from './form/form.component'
+import Header from './header/header'
+import GoogleLogIn from './google-login/googleLogIn'
+import Form from './form/form'
 
 export const YouAteIt: React.FC = () => {
 

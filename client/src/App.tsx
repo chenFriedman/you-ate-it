@@ -1,22 +1,12 @@
-import React, { Component } from 'react';
-import YouAteIt from './uAteIt/youAteIt.component';
+import React from 'react';
+import YouAteIt from './uAteIt/youAteIt';
 import './App.css';
 
-class App extends Component {
-  state = {
-    response: '',
-    post: '',
-    responseToPost: '',
-  };
-
-  
-render() {
-    return (
-      <div >
-        <YouAteIt />
-      </div>
-    );
-  }
+export const App: React.FC = () => {
+  return (
+    <div >
+      <YouAteIt />
+    </div>
+  );
 }
-
-export default App;
+export default App

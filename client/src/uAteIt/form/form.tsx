@@ -2,8 +2,8 @@ import React from 'react';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { AppBar , Tabs, Tab, Box} from '@material-ui/core';
 import './style.scss'
-import DetailsTab from '../details-tab/details-tab.component'
-import FoodTab from '../food-tab/food-tab.component'
+import DetailsTab from '../details-tab/details-tab'
+import FoodTab from '../food-tab/food-tab'
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -12,7 +12,7 @@ interface TabPanelProps {
   value: any;
 }
 
-function TabPanel(props: TabPanelProps) {
+const TabPanel = (props: TabPanelProps) => {
   const { children, value, index, ...other } = props;
 
   return (

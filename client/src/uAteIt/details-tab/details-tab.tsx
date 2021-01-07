@@ -7,7 +7,7 @@ import './style.scss';
     setSelectedBeer: (value: string) => void
   }
 
-  export default function DetailsTab({onSubmit, setPrivateDetails, setSelectedBeer}: IProps) {
+  export const DetailsTab = ({onSubmit, setPrivateDetails, setSelectedBeer}: IProps) => {
 
   const emptyFormState: any= { firstName:'', lastName:'', birthdate:'', id:'', phone:'', beer:''}
   const [formState, setFormState] = React.useState(emptyFormState)
@@ -72,6 +72,10 @@ import './style.scss';
     );
   }
 
+  const firstNameErrorValidation = formState.firstName!=='' && (!/^[a-z\u0590-\u05fe]+$/i.test(formState.firstName) || formState.firstName.length > 50)
+
+  const LastNameErrorValidation = formState.lastName!=='' && (!/^[a-z\u0590-\u05fe]+$/i.test(formState.lastName) || formState.lastName.length > 50)
+
   return (
     <form noValidate autoComplete="off">
         <div className='form-container'>
@@ -81,16 +85,16 @@ import './style.scss';
               label="שם פרטי" 
               value={formState.firstName}
               onChange={e => setFormState({...formState, firstName: e.target.value})}
-              error={formState.firstName!=='' && (!/^[a-z\u0590-\u05fe]+$/i.test(formState.firstName) || formState.firstName.length > 50)}
-              helperText={formState.firstName!=='' && ( !/^[a-z\u0590-\u05fe]+$/i.test(formState.firstName) || formState.firstName.length > 50) ? 'שם מכיל אותיות בלבד' : ' '}
+              error={firstNameErrorValidation}
+              helperText={firstNameErrorValidation ? 'שם מכיל אותיות בלבד' : ' '}
             />
             <TextField 
               id="field" 
               label="שם משפחה" 
               value={formState.lastName}
               onChange={e => setFormState({...formState, lastName: e.target.value})}
-              error={formState.lastName!=='' && (!/^[a-z\u0590-\u05fe]+$/i.test(formState.lastName) || formState.lastName.length > 50)}
-              helperText={ formState.lastName!=='' && (!/^[a-z\u0590-\u05fe]+$/i.test(formState.lastName) || formState.lastName.length > 50) ? 'שם מכיל אותיות בלבד' : ' '}
+              error={LastNameErrorValidation}
+              helperText={LastNameErrorValidation ? 'שם מכיל אותיות בלבד' : ' '}
             />
           </span>
           <span className='row'>
@@ -142,3 +146,4 @@ import './style.scss';
       </form>
     );
 }
+export default DetailsTab
