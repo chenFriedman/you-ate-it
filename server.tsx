@@ -25,6 +25,7 @@ app.get('/form/foodslist', (req, res) => {
   res.send({ foodslist: foodlistFile });
 });
 
+app.get('/beerList', db.getBeerlist)
 app.post('/users', db.createUser)
 app.get('/users', db.getUsers)
 app.post('/favoritFoodOptions', db.createFavoritFoodOptions)

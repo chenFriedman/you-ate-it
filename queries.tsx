@@ -8,6 +8,15 @@ const pool = new Pool({
 })
 'use strict';
 
+const getBeerlist = (request, response) => {
+  pool.query('SELECT * FROM beerList', (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
 const createUser = (request, response) => {
     const { email } = request.body  
     pool.query('INSERT INTO users (email) VALUES ($1)', [email], (error, results) => {
@@ -97,6 +106,7 @@ const getFavoritFood = (request, response) => {
   }
 
   module.exports = {
+    getBeerlist,
     createUser,
     getUsers,
     createFavoritFoodOptions,

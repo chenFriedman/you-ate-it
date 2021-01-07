@@ -49,9 +49,29 @@ export default function Form({email, logout}: IProps) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
   const [foodList, setFoodList] = React.useState([]);
+  const [beerList, setBeerList] = React.useState(0);
   const [elseValue, setElseValue] = React.useState('');
   const [selectedBeer, setSelectedBeer] = React.useState('');
   const [privateDetails, setPrivateDetails] = React.useState({email: email, firstName:'', lastName:'', birthday:'', id:'', phone:''})
+
+  React.useEffect(() => {
+    bringBeerList()
+  })
+
+  const getBeerList = async () => {
+    const response = await fetch('/beerList');
+    const body = await response.json();
+    if (response.status !== 200) throw Error(body.message);
+    return body;
+  };
+
+  const bringBeerList = async () =>{
+    getBeerList()
+      .then((res: any) => {
+        const beers = res.map((key: { beername: any; }) => key.beername);
+        setBeerList(beers)})
+          .catch((err: any) => console.log(err));
+  }
 
   const bringFoodList = async () =>{
     getfoodsList()
@@ -156,6 +176,7 @@ export default function Form({email, logout}: IProps) {
               bringFoodList()
             }}
             setPrivateDetails= {setPrivateDetails}
+            beerList = {beerList}
           />
         </TabPanel>
         <TabPanel value={value} index={1} >

@@ -5,13 +5,13 @@ import './style.scss';
     onSubmit: () => void
     setPrivateDetails: (privateDetails: any) => void
     setSelectedBeer: (value: string) => void
+    beerList: any
   }
 
-  export const DetailsTab = ({onSubmit, setPrivateDetails, setSelectedBeer}: IProps) => {
+  export const DetailsTab = ({onSubmit, setPrivateDetails, setSelectedBeer, beerList}: IProps) => {
 
   const emptyFormState: any= { firstName:'', lastName:'', birthdate:'', id:'', phone:'', beer:''}
   const [formState, setFormState] = React.useState(emptyFormState)
-  const [beersList, setbeersList] = React.useState([])
   const [toShowBeerField, setToShowBeerField] = React.useState(false)
   const [showErrorMsg, setShowErrorMsg] = React.useState(false)
 
@@ -38,24 +38,13 @@ import './style.scss';
   const checkAllowdBeer = (birtday: any) => {
     if (get_age(birtday) > 18) {
       setToShowBeerField(true)
-      getBeersList()
-          .then(res => setbeersList(res.beerslist))
-          .catch(err => console.log(err));
-    }
-    else {
+    } else {
       setToShowBeerField(false)
     }
   }
 
-  const getBeersList = async () => {
-    const response = await fetch('/form/beerslist');
-    const body = await response.json();
-    if (response.status !== 200) throw Error(body.message);
-    return body;
-  };
-
-  const renderBeersOptions = () => {
-    const options = beersList.map(beerOption => (
+  const renderBeerOptions = () => {
+    const options = beerList.map((beerOption: {} | null | undefined | any) => (
       <option key={beerOption} value={beerOption}>{beerOption}</option>
     ));
 
@@ -117,7 +106,7 @@ import './style.scss';
             { toShowBeerField && <span className='beer-field'>
               <InputLabel id="demo-simple-select-label field">
                 ?מה הבירה האהובה עליך</InputLabel>
-                {renderBeersOptions()}
+                {renderBeerOptions()}
             </span>}
           </span>
           <span className='row'>
