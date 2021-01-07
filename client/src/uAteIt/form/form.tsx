@@ -56,7 +56,7 @@ export default function Form({email, logout}: IProps) {
 
   React.useEffect(() => {
     bringBeerList()
-  })
+  }, []);
 
   const getBeerList = async () => {
     const response = await fetch('/beerList');
