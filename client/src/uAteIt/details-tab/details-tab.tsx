@@ -1,5 +1,5 @@
 import React from 'react';
-import {TextField, Select, InputLabel, Button} from '@material-ui/core';
+import { useForm } from "react-hook-form";
 import './style.scss';
   interface IProps {
     onSubmit: () => void
@@ -9,22 +9,7 @@ import './style.scss';
   }
 
   export const DetailsTab = ({onSubmit, setPrivateDetails, setSelectedBeer, beerList}: IProps) => {
-
-  const emptyFormState: any= { firstName:'', lastName:'', birthdate:'', id:'', phone:'', beer:''}
-  const [formState, setFormState] = React.useState(emptyFormState)
   const [toShowBeerField, setToShowBeerField] = React.useState(false)
-  const [showErrorMsg, setShowErrorMsg] = React.useState(false)
-
-  const updateFormStatus = () => {
-    if (formState.firstName && formState.lastName && formState.birthdate &&  formState.id && formState.phone && (!toShowBeerField || formState.beer)) {
-      setPrivateDetails({...formState})
-      toShowBeerField && setSelectedBeer(formState.beer)
-      onSubmit()
-      showErrorMsg && setShowErrorMsg(false)
-    } else {
-      setShowErrorMsg(true)
-    }
-  }
 
   const MILLISECONDS_IN_A_YEAR = 1000*60*60*24*365;
   const get_age = (time: any) => {
@@ -49,90 +34,69 @@ import './style.scss';
     ));
 
     return (
-    <Select
+    <select
       id="field" 
-      native
-      value={formState.beer}
-      onChange={e => setFormState({...formState, beer: e.target.value})}
+      ref={register}
+      name="beer"
     >
       <option aria-label="None" value="" />
       {options}
-    </Select>
+    </select>
     );
   }
-
-  const firstNameErrorValidation = formState.firstName!=='' && (!/^[a-z\u0590-\u05fe]+$/i.test(formState.firstName) || formState.firstName.length > 50)
-
-  const LastNameErrorValidation = formState.lastName!=='' && (!/^[a-z\u0590-\u05fe]+$/i.test(formState.lastName) || formState.lastName.length > 50)
-
+  const nameErrorValidation =  /^[a-z\u0590-\u05fe]+$/i
+  const { register, handleSubmit, errors  } = useForm();
+  const onSubmitt = (data: any) => {
+    setPrivateDetails(data)
+    onSubmit()
+  };
   return (
-    <form noValidate autoComplete="off">
-        <div className='form-container'>
-          <span className='row'>
-            <TextField 
-              id="field" 
-              label="שם פרטי" 
-              value={formState.firstName}
-              onChange={e => setFormState({...formState, firstName: e.target.value})}
-              error={firstNameErrorValidation}
-              helperText={firstNameErrorValidation ? 'שם מכיל אותיות בלבד' : ' '}
-            />
-            <TextField 
-              id="field" 
-              label="שם משפחה" 
-              value={formState.lastName}
-              onChange={e => setFormState({...formState, lastName: e.target.value})}
-              error={LastNameErrorValidation}
-              helperText={LastNameErrorValidation ? 'שם מכיל אותיות בלבד' : ' '}
-            />
-          </span>
-          <span className='row'>
-            <TextField
-              id="date field"
-              label="תאריך לידה"
-              error={get_age(formState.birthdate) < 0 }
-              helperText={get_age(formState.birthdate) < 0 ? 'לא ניתן לבחור תאריך עתידי' : ' '}
-              type="date"
-              className={'date-field'}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              value={formState.birthdate}
-              onChange={
-                e => {
-                  setFormState({...formState, birthdate: e.target.value})
-                  checkAllowdBeer(e.target.value)}}
-            />
-            { toShowBeerField && <span className='beer-field'>
-              <InputLabel id="demo-simple-select-label field">
-                ?מה הבירה האהובה עליך</InputLabel>
-                {renderBeerOptions()}
-            </span>}
-          </span>
-          <span className='row'>
-            <TextField 
-              id="field" 
-              label="טלפון" 
-              value={formState.phone}
-              onChange={e => setFormState({...formState, phone: e.target.value})}
-            />
-          </span>
-          <span className='row'>
-            <TextField 
-              id="field" 
-              label="ת.ז" 
-              value={formState.id}
-              onChange={e => setFormState({...formState, id: e.target.value})}
-            />
-          </span>
-        </div>
-        {showErrorMsg && <div>please fill all fields</div>}
-        <Button 
-          variant="contained" 
-          color="primary" 
-          onClick={updateFormStatus}>סיום
-        </Button>
-      </form>
-    );
+    <form onSubmit={handleSubmit(onSubmitt)} className='form-container'>
+      <input 
+        className='row'
+        name="firstName" 
+        type="text" 
+        placeholder="שם פרטי" 
+        ref={register({  pattern: nameErrorValidation, maxLength: 50, required: true,})}
+      />
+      {errors.firstName && <span>שם מכיל אותיות בלבד</span>}
+      
+      <input 
+        name="lastName" 
+        type="text" 
+        placeholder="שם משפחה" 
+        ref={register({ required: true, pattern: nameErrorValidation, maxLength: 50 })} 
+      />
+      {errors.lastName && <span>שם מכיל אותיות בלבד</span>}
+     
+      <input 
+        name="birthdate" 
+        type="date" ref={register({ required: true})} 
+        onChange={ e => {checkAllowdBeer(e.target.value)}}
+      />
+      {errors.birthdate && <span>לא ניתן לבחור תאריך עתידי</span>}
+      
+      <input 
+        name="id" 
+        placeholder="ת.ז" 
+        ref={register({ required: true })}
+      />
+      {errors.id && <span>This field is required</span>}
+      
+      <input 
+        name="phone"
+        placeholder="טלפון" 
+        ref={register({ required: true })}
+      />
+      {errors.phone && <span>This field is required</span>}
+      
+      {toShowBeerField && 
+      <span className='beer-field'>
+        <span> ?מה הבירה האהובה עליך</span>
+        {renderBeerOptions()}
+      </span>}
+      <input type="submit" />
+    </form>
+  );
 }
 export default DetailsTab
