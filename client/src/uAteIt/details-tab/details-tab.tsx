@@ -48,6 +48,7 @@ import './style.scss';
   const { register, handleSubmit, errors  } = useForm();
   const onSubmitt = (data: any) => {
     setPrivateDetails(data)
+    setSelectedBeer(data.beer)
     onSubmit()
   };
   return (

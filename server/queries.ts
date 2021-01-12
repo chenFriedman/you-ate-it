@@ -26,7 +26,7 @@ const createUser = (request, response) => {
       response.status(201).send(`User added with ID: ${results.insertId}`)
     })
   }
-  
+
 const getUsers = (request, response) => {
     pool.query('SELECT * FROM users ORDER BY id ASC', (error, results) => {
       if (error) {
@@ -35,7 +35,7 @@ const getUsers = (request, response) => {
       response.status(200).json(results.rows)
     })
   }
-  
+
 const createFavoritFoodOptions = (request, response) => {
     const {key, value} = request.body  
     pool.query('INSERT INTO favoritFoodOptions (Key, Value) VALUES ($1, $2)', [key, value], (error, results) => {
@@ -54,7 +54,7 @@ const getFavoritFoodOptions = (request, response) => {
       response.status(200).json(results.rows)
     })
   }
-  
+
 const createPrivateDetails = (request, response) => {
   const { email, firstName, lastName, birthdate, id, phone } = request.body  
     pool.query('INSERT INTO privateDetails (email, firstName, lastName, birthdate, id, phone) VALUES ($1, $2, $3, $4, $5, $6)', [email, firstName, lastName, birthdate, id, phone], (error, results) => {
@@ -64,7 +64,7 @@ const createPrivateDetails = (request, response) => {
       response.status(201).send(`User added with ID: ${results.insertId}`)
     })
   }
-  
+
 const getPrivateDetails = (request, response) => {
     pool.query('SELECT * FROM privateDetails ORDER BY id ASC', (error, results) => {
       if (error) {
@@ -95,7 +95,7 @@ const createFavoritFood = (request, response) => {
     response.status(201).send(`User added with ID:`)
   })
   }
-  
+
 const getFavoritFood = (request, response) => {
     pool.query('SELECT * FROM favoritFood', (error, results) => {
       if (error) {

@@ -5,10 +5,9 @@ import './style.scss'
     onSubmit: (favoritFoodselected: any) => void
     foodList: any
     setElseValueMainForm: (value: any) => void
-    // setFavoritFood: (favoriteFood: any) => void
   }
 
-  export default function FoodTab({onSubmit, foodList, setElseValueMainForm, //setFavoritFood
+  export default function FoodTab({onSubmit, foodList, setElseValueMainForm,
   }: IProps) {
     const emptyFoodFormState:any = {else: false}
     foodList.map((x: { key: string; }) => {

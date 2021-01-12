@@ -68,8 +68,7 @@ export default function Form({email, logout}: IProps) {
   const bringBeerList = async () =>{
     getBeerList()
       .then((res: any) => {
-        const beers = res.map((key: { beername: any; }) => key.beername);
-        setBeerList(beers)})
+        setBeerList(res)})
           .catch((err: any) => console.log(err));
   }
 

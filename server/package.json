@@ -1,0 +1,32 @@
+{
+  "name": "example-create-react-app-express",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "client": "cd ../client && yarn start",
+    "server": "nodemon server.ts",
+    "start": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
+  },
+  "dependencies": {
+    "@types/node": "^14.14.20",
+    "@types/pg-format": "^1.0.1",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "graphql": "^15.4.0",
+    "graphql-request": "^3.4.0",
+    "knex": "^0.21.15",
+    "knex-migrate": "^1.7.4",
+    "nodemon": "^2.0.7",
+    "pg": "^8.5.1",
+    "pg-format": "^1.0.4",
+    "postgraphile": "^4.10.0",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.3"
+  },
+  "devDependencies": {
+    "concurrently": "^4.0.1",
+    "dotenv": "^8.2.0"
+  },
+  "proxy": "http://localhost:5000/"
+}
