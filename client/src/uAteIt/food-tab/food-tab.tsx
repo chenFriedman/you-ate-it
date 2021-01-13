@@ -1,6 +1,8 @@
 import React from 'react';
 import { Checkbox, FormControlLabel, FormControl, TextField, Button } from '@material-ui/core';
+
 import useStyle from './foodTabStyle'
+
 interface IProps {
   onSubmit: (favoritFoodselected: any) => void
   foodList: any

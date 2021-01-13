@@ -1,8 +1,9 @@
 import React from 'react';
 import moment from 'moment'
-import { useForm } from "react-hook-form";
+import { useForm } from 'react-hook-form';
 
 import useStyles from './detailsTabStyle'
+
 interface IProps {
   onSubmit: () => void
   setPrivateDetails: (privateDetails: any) => void
@@ -25,11 +26,11 @@ export const DetailsTab = ({ onSubmit, setPrivateDetails, setSelectedBeer, beerL
 
     return (
       <select
-        id="field"
+        id='field'
         ref={requiredRef}
-        name="beer"
+        name='beer'
       >
-        <option aria-label="None" value="" />
+        <option aria-label='None' value='' />
         {options}
       </select>
     );
@@ -47,38 +48,38 @@ export const DetailsTab = ({ onSubmit, setPrivateDetails, setSelectedBeer, beerL
     <form onSubmit={handleSubmit(onSubmitt)} className={classes.formContainer}>
       <input
         className='row'
-        name="firstName"
-        type="text"
-        placeholder="שם פרטי"
+        name='firstName'
+        type='text'
+        placeholder='שם פרטי'
         ref={nameRef}
       />
       {errors.firstName && <span>שם מכיל אותיות בלבד</span>}
 
       <input
-        name="lastName"
-        type="text"
-        placeholder="שם משפחה"
+        name='lastName'
+        type='text'
+        placeholder='שם משפחה'
         ref={nameRef}
       />
       {errors.lastName && <span>שם מכיל אותיות בלבד</span>}
 
       <input
-        name="birthdate"
-        type="date" ref={requiredRef}
+        name='birthdate'
+        type='date' ref={requiredRef}
         onChange={e => { checkAllowdBeer(e.target.value) }}
       />
       {errors.birthdate && <span>לא ניתן לבחור תאריך עתידי</span>}
 
       <input
-        name="id"
-        placeholder="ת.ז"
+        name='id'
+        placeholder='ת.ז'
         ref={requiredRef}
       />
       {errors.id && <span>This field is required</span>}
 
       <input
-        name="phone"
-        placeholder="טלפון"
+        name='phone'
+        placeholder='טלפון'
         ref={requiredRef}
       />
       {errors.phone && <span>This field is required</span>}
@@ -88,7 +89,7 @@ export const DetailsTab = ({ onSubmit, setPrivateDetails, setSelectedBeer, beerL
           <span> ?מה הבירה האהובה עליך</span>
           {renderBeerOptions()}
         </span>}
-      <input type="submit" />
+      <input type='submit' />
     </form>
   );
 }

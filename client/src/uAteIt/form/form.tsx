@@ -1,37 +1,11 @@
 import React from 'react';
-import { AppBar , Tabs, Tab, Box} from '@material-ui/core';
+import { AppBar , Tabs, Tab } from '@material-ui/core';
 
 import './style.scss'
 import useStyles from './formStyles'
+import TabPanel from '../tab-panel/tabPanel'
 import DetailsTab from '../details-tab/details-tab'
 import FoodTab from '../food-tab/food-tab'
-
-interface TabPanelProps {
-  children?: React.ReactNode;
-  dir?: string;
-  index: any;
-  value: any;
-}
-
-const TabPanel = (props: TabPanelProps) => {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`full-width-tabpanel-${index}`}
-      aria-labelledby={`full-width-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box p={2}>
-          {children}
-        </Box>
-      )}
-    </div>
-  );
-}
 
 interface IProps {
   email: any
@@ -133,16 +107,16 @@ export default function Form({email, logout}: IProps) {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" color="default">
+      <AppBar position='static' color='default'>
         <Tabs
           value={tabNumber}
-          indicatorColor="primary"
-          textColor="primary"
-          variant="fullWidth"
-          aria-label="full width tabs example"
+          indicatorColor='primary'
+          textColor='primary'
+          variant='fullWidth'
+          aria-label='full width tabs example'
         >
-          <Tab label="פרטים אישיים" />
-          <Tab label="מאכלים אהובים" />
+          <Tab label='פרטים אישיים' />
+          <Tab label='מאכלים אהובים' />
         </Tabs>
       </AppBar>
         <TabPanel value={tabNumber} index={0} >
