@@ -1,6 +1,6 @@
 import React from 'react';
 import { Checkbox, FormControlLabel, FormControl, TextField, Button } from '@material-ui/core';
-import './style.scss'
+import useStyle from './foodTabStyle'
 interface IProps {
   onSubmit: (favoritFoodselected: any) => void
   foodList: any
@@ -15,6 +15,8 @@ export default function FoodTab({ onSubmit, foodList, setNewFoodOptionValueMainF
   const [newFoodOptionValue, setNewFoodOptionValue] = React.useState('')
   const [isFormValid, setIsFormValid] = React.useState(false)
   const [showErrorMsg, setShowErrorMsg] = React.useState(false)
+
+  const classes = useStyle()
 
   React.useEffect(() => {
     foodList.map((x: { key: string; }) => {
@@ -70,7 +72,7 @@ export default function FoodTab({ onSubmit, foodList, setNewFoodOptionValueMainF
     ));
 
     return (
-      <FormControl component="fieldset" className='favoriteFoodForm'>
+      <FormControl component="fieldset" className={classes.favoriteFoodForm}>
         {options}
         <FormControlLabel
           control={
@@ -86,7 +88,7 @@ export default function FoodTab({ onSubmit, foodList, setNewFoodOptionValueMainF
           labelPlacement="start"
         />
         {foodFormState.else && <TextField
-          id="field"
+          className={classes.field}
           label="הקלד מאכל אחר"
           value={newFoodOptionValue}
           onChange={e => {
@@ -99,8 +101,8 @@ export default function FoodTab({ onSubmit, foodList, setNewFoodOptionValueMainF
   }
 
   return (
-    <div className='form-container'>
-      <div className='subtitle'>אנה בחר את המאכלים האהובים עליך</div>
+    <div className={classes.formContainer}>
+      <div className={classes.subtitle}>אנה בחר את המאכלים האהובים עליך</div>
       {renderFavoriteFoodsTab()}
       {showErrorMsg && <div>please check at least one field</div>}
       <Button

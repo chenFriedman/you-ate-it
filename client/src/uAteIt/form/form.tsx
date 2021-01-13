@@ -1,7 +1,8 @@
 import React from 'react';
-import { makeStyles, Theme } from '@material-ui/core/styles';
 import { AppBar , Tabs, Tab, Box} from '@material-ui/core';
+
 import './style.scss'
+import useStyles from './formStyles'
 import DetailsTab from '../details-tab/details-tab'
 import FoodTab from '../food-tab/food-tab'
 
@@ -32,14 +33,6 @@ const TabPanel = (props: TabPanelProps) => {
   );
 }
 
-const useStyles = makeStyles((theme: Theme) => ({
-  root: {
-    backgroundColor: '#ababab',
-    width: '100%',
-    float: 'right',
-    height: '92%'
-  },
-}));
 interface IProps {
   email: any
   logout: () => void

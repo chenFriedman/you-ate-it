@@ -1,12 +1,11 @@
 import * as React from 'react'
-import './style.scss'
-
+import useStyles from './youAteItStyles'
 import Header from './header/header'
 import GoogleLogIn from './google-login/googleLogIn'
 import Form from './form/form'
 
 export const YouAteIt: React.FC = () => {
-
+  const classes = useStyles();
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [userName, setUserName] = React.useState('');
   const [email, setEmail] = React.useState('');
@@ -17,7 +16,7 @@ export const YouAteIt: React.FC = () => {
   }
   
   return (
-    <div className='youAteIt-container'>
+    <div className={classes.youAteItContainer}>
       <Header isLoggedIn={isLoggedIn} userName={userName}/>
       {isLoggedIn && userName ? <Form email={email} logout={logout}/>
        : <GoogleLogIn onSubmit={setIsLoggedIn} setUserName={setUserName} setEmail={setEmail}/> }

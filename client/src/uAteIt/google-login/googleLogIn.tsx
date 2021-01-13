@@ -2,7 +2,8 @@ import React from 'react';
 import GoogleLogin from 'react-google-login';
 import { Typography } from '@material-ui/core'
 import { Box } from '@material-ui/core'
-import './style.scss'
+
+import useStyles from './googleLogInStyles'
 
 interface IProps {
   onSubmit: (value: boolean) => void
@@ -11,15 +12,14 @@ interface IProps {
 }
 
 export const GoogleLogIn: React.FC<IProps> = ({onSubmit, setUserName, setEmail}: IProps) => {
-  
+  const classes = useStyles();
   const responseGoogle = (response: any) => {
     onSubmit(true);
     setUserName(response.profileObj.name);
     setEmail(response.profileObj.email)
   }
-  
   return (
-    <div className='Google-log-in-container'>
+    <div className={classes.GoogleLogInContainer} id='google-login-container'>
       <Box
         display="flex" 
         flexDirection= 'column'
@@ -28,7 +28,7 @@ export const GoogleLogIn: React.FC<IProps> = ({onSubmit, setUserName, setEmail}:
         alignItems="center"
         justifyContent="center"
       >
-        <Typography variant="h4" >ברוכים הבאים ל<span className='bold'>אכלת אותה</span>! בואו נתחבר ומיד נתחיל</Typography>
+        <Typography variant="h4" >ברוכים הבאים ל<span className={classes.bold}>אכלת אותה</span>! בואו נתחבר ומיד נתחיל</Typography>
         
         <GoogleLogin
           clientId="775424750969-lhsc55apvg63m3djgasblo51mlmsgu6b.apps.googleusercontent.com"
@@ -36,7 +36,6 @@ export const GoogleLogIn: React.FC<IProps> = ({onSubmit, setUserName, setEmail}:
           onSuccess={responseGoogle}
           onFailure={responseGoogle}
           cookiePolicy={'single_host_origin'}
-          style={{width: '500px' }}
         />
       </Box>
     </div>
