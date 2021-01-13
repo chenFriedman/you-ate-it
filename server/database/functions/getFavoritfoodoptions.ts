@@ -5,7 +5,7 @@ import { getFavoritfoodoptionsQuery } from '../queries/getFavoritfoodoptionsQuer
 
 const getFavoritfoodoptions = async (req: Request, res: Response) => {
     try {
-        const data = await request("http://localhost:5000/graphql", getFavoritfoodoptionsQuery)
+        const data = await request(String(process.env.GRAPHQL_URL), getFavoritfoodoptionsQuery)
         if (!data) {
             return res.status(400).send(data)
         }

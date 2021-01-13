@@ -5,7 +5,7 @@ import { getBeerListQuery } from '../queries/getBeerListQuery'
 
 const getBeerlist = async (req: Request, res: Response) => {
     try {
-        const data = await request("http://localhost:5000/graphql", getBeerListQuery)
+        const data = await request(String(process.env.GRAPHQL_URL), getBeerListQuery)
         if (!data) {
             return res.status(400).send(data)
         }

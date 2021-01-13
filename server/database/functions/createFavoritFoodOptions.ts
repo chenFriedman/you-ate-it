@@ -6,7 +6,7 @@ import { createFavoritFoodOptionsMutation } from '../mutations/createFavoritFood
 const createFavoritFoodOptions  = async (req: Request, res: Response) => {
     try {
         console.log('in createFavoritFoodOptions', req.body.value, req.body.key)
-        const data = await request("http://localhost:5000/graphql", createFavoritFoodOptionsMutation, {
+        const data = await request(String(process.env.GRAPHQL_URL), createFavoritFoodOptionsMutation, {
             value: req.body.value,
             key: req.body.key,
         });

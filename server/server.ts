@@ -1,8 +1,8 @@
-const cors = require('cors')
 const express = require('express');
+const cors = require('cors')
 const fs = require('fs');
 const bodyParser = require('body-parser');
-import {postgraphile} from 'postgraphile';
+import { postgraphile } from 'postgraphile';
 
 import getBeerlist from './database/functions/getBeerList' 
 import getFavoritfoodoptions from './database/functions/getFavoritfoodoptions' 
@@ -15,8 +15,11 @@ import createPrivateDetails from './database/functions/createPrivatedetail'
 'use strict';	
 require('dotenv').config();
 
-const port = process.env.PORT || 5000;	
 const app = express();
+const port = process.env.PORT;
+const postgres = process.env.DATABASE_URL;
+
+console.log(`Your port is ${port}`);
 
 app.use(postgraphile(
     "postgres://oactaquy:SVmN2rdJwsp6yAFIpD-9p3kBtMpkbTvy@suleiman.db.elephantsql.com:5432/oactaquy",

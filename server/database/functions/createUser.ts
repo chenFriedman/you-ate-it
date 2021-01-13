@@ -5,7 +5,7 @@ import { createUserMutation } from '../mutations/createUserMutation'
 
 const createUser = async (req: Request, res: Response) => {
     try {
-        const data = await request("http://localhost:5000/graphql", createUserMutation, {
+        const data = await request(String(process.env.GRAPHQL_URL), createUserMutation, {
             email: req.body.email,
         });
         res.send('user added')

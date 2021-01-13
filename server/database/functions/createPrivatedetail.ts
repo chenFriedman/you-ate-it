@@ -5,7 +5,7 @@ import { createPrivatedetailsMutation } from '../mutations/createPrivatedetailMu
 
 const createPrivateDetails = async (req: Request, res: Response) => {    
     try {
-        const data = await request("http://localhost:5000/graphql", createPrivatedetailsMutation, {
+        const data = await request(String(process.env.GRAPHQL_URL), createPrivatedetailsMutation, {
             email: req.body.email,
             firstname: req.body.firstName,
             lastname: req.body.lastName,
