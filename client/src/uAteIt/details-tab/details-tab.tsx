@@ -1,6 +1,7 @@
 import React from 'react';
 import { useForm } from "react-hook-form";
 import './style.scss';
+import moment from 'moment'
   interface IProps {
     onSubmit: () => void
     setPrivateDetails: (privateDetails: any) => void
@@ -11,32 +12,19 @@ import './style.scss';
   export const DetailsTab = ({onSubmit, setPrivateDetails, setSelectedBeer, beerList}: IProps) => {
   const [toShowBeerField, setToShowBeerField] = React.useState(false)
 
-  const MILLISECONDS_IN_A_YEAR = 1000*60*60*24*365;
-  const get_age = (time: any) => {
-      let date_array = time.split('-')
-      let years_elapsed: any = 
-        (+new Date() - +new Date(date_array[0],date_array[1],date_array[2]))
-        /(MILLISECONDS_IN_A_YEAR);
-      return years_elapsed; }
-
-
   const checkAllowdBeer = (birtday: any) => {
-    if (get_age(birtday) > 18) {
-      setToShowBeerField(true)
-    } else {
-      setToShowBeerField(false)
-    }
+    return moment().diff(birtday, 'years') > 18 ? setToShowBeerField(true) : setToShowBeerField(false)
   }
 
   const renderBeerOptions = () => {
-    const options = beerList.map((beerOption: {} | null | undefined | any) => (
+    const options = beerList.map((beerOption: any) => (
       <option key={beerOption} value={beerOption}>{beerOption}</option>
     ));
 
     return (
     <select
       id="field" 
-      ref={register}
+      ref={requiredRef}
       name="beer"
     >
       <option aria-label="None" value="" />
@@ -51,6 +39,8 @@ import './style.scss';
     setSelectedBeer(data.beer)
     onSubmit()
   };
+  const nameRef = register({ pattern: nameErrorValidation, maxLength: 50, required: true})
+  const requiredRef = register({ required: true})
   return (
     <form onSubmit={handleSubmit(onSubmitt)} className='form-container'>
       <input 
@@ -58,7 +48,7 @@ import './style.scss';
         name="firstName" 
         type="text" 
         placeholder="שם פרטי" 
-        ref={register({  pattern: nameErrorValidation, maxLength: 50, required: true,})}
+        ref={nameRef}
       />
       {errors.firstName && <span>שם מכיל אותיות בלבד</span>}
       
@@ -66,13 +56,13 @@ import './style.scss';
         name="lastName" 
         type="text" 
         placeholder="שם משפחה" 
-        ref={register({ required: true, pattern: nameErrorValidation, maxLength: 50 })} 
+        ref={nameRef} 
       />
       {errors.lastName && <span>שם מכיל אותיות בלבד</span>}
      
       <input 
         name="birthdate" 
-        type="date" ref={register({ required: true})} 
+        type="date" ref={requiredRef} 
         onChange={ e => {checkAllowdBeer(e.target.value)}}
       />
       {errors.birthdate && <span>לא ניתן לבחור תאריך עתידי</span>}
@@ -80,14 +70,14 @@ import './style.scss';
       <input 
         name="id" 
         placeholder="ת.ז" 
-        ref={register({ required: true })}
+        ref={requiredRef}
       />
       {errors.id && <span>This field is required</span>}
       
       <input 
         name="phone"
         placeholder="טלפון" 
-        ref={register({ required: true })}
+        ref={requiredRef}
       />
       {errors.phone && <span>This field is required</span>}
       

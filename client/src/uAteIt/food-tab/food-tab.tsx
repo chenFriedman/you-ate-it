@@ -11,7 +11,7 @@ import './style.scss'
   }: IProps) {
     const emptyFoodFormState:any = {else: false}
     foodList.map((x: { key: string; }) => {
-      let val = x.key
+      const val = x.key
       emptyFoodFormState[val]=false
       })
   const [foodFormState, setFoodFormState] = React.useState(emptyFoodFormState)
@@ -25,15 +25,16 @@ import './style.scss'
   }
 
   const elseValueEntered = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    if(foodFormState.else)
-    setElseValue(e.target.value)
-    const elseObject = {"key": e.target.value, "value": e.target.value}
-    setElseValueMainForm(elseObject)          
+    if (foodFormState.else) {
+      setElseValue(e.target.value)
+      const elseObject = {"key": e.target.value, "value": e.target.value}
+      setElseValueMainForm(elseObject) 
+    }    
   }
   
   const submit = () => {
     if (isFormValid) {
-      let temp: any = {...foodFormState}
+      let temp: any = {foodFormState}
       if (foodFormState.else) {
         let tmpelseValue = elseValue
         temp[tmpelseValue]=true  

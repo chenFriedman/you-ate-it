@@ -19,8 +19,8 @@ export const YouAteIt: React.FC = () => {
   return (
     <div className='youAteIt-container'>
       <Header isLoggedIn={isLoggedIn} userName={userName}/>
-      {!isLoggedIn && <GoogleLogIn onSubmit={setIsLoggedIn} setUserName={setUserName} setEmail={setEmail}/>}
-      {isLoggedIn && userName && <Form email={email} logout={logout}/>}
+      {isLoggedIn && userName ? <Form email={email} logout={logout}/>
+       : <GoogleLogIn onSubmit={setIsLoggedIn} setUserName={setUserName} setEmail={setEmail}/> }
     </div>
   )
 }
