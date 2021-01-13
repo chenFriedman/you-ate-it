@@ -25,7 +25,7 @@ const TabPanel = (props: TabPanelProps) => {
     >
       {value === index && (
         <Box p={2}>
-          <>{children}</>
+          {children}
         </Box>
       )}
     </div>
@@ -47,47 +47,33 @@ interface IProps {
 
 export default function Form({email, logout}: IProps) {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const [tabNumber, setTabNumber] = React.useState(0);
   const [foodList, setFoodList] = React.useState([]);
   const [beerList, setBeerList] = React.useState(0);
-  const [elseValue, setElseValue] = React.useState('');
+  const [newFoodOptionValue, setNewFoodOptionValue] = React.useState('');
   const [selectedBeer, setSelectedBeer] = React.useState('');
   const [privateDetails, setPrivateDetails] = React.useState({email: email, firstName:'', lastName:'', birthday:'', id:'', phone:''})
-
+  const successResponseStatus = 200
   React.useEffect(() => {
-    bringBeerList()
+    getBeerList()
   }, []);
 
   const getBeerList = async () => {
     const response = await fetch('/beerList');
-    const body = await response.json();
-    if (response.status !== 200) throw Error(body.message);
-    return body;
+    const res = await response.json();
+    if (response.status !== successResponseStatus) throw Error(res.message);
+    setBeerList(res)
   };
-
-  const bringBeerList = async () =>{
-    getBeerList()
-      .then((res: any) => {
-        setBeerList(res)})
-          .catch((err: any) => console.log(err));
-  }
-
-  const bringFoodList = async () =>{
-    getfoodsList()
-      .then((res: any) => {
-        setFoodList(res)})
-          .catch((err: any) => console.log(err));
-  }
 
   const getfoodsList = async () => {
     const response = await fetch('/favoritFoodOptions');
     const body = await response.json();
-    if (response.status !== 200) throw Error(body.message);
-    return body;
+    if (response.status !== successResponseStatus) throw Error(body.message);
+    setFoodList(body)
   }
 
   const insertNewFoodOptionToDB = async () => {
-    const data =  elseValue
+    const data =  newFoodOptionValue
     await fetch('/favoritFoodOptions', {
       method: 'POST',
       headers: {
@@ -123,13 +109,12 @@ export default function Form({email, logout}: IProps) {
   const insertfavoritFood = async (favoritFoodselected: any) => {
     const filterSelectedFood = Object.fromEntries(Object.entries(favoritFoodselected).filter(([key, value]) => value === true))
     var selectedFood = Object.keys(filterSelectedFood).map((key) => [email, key]);
-    const data = selectedFood
     await fetch('/favoritFood', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(selectedFood),
     });
   }
 
@@ -145,7 +130,7 @@ export default function Form({email, logout}: IProps) {
   }
 
   const submit = async (favoritFoodselected: any) => {
-    elseValue!=='' && insertNewFoodOptionToDB()
+    newFoodOptionValue!=='' && insertNewFoodOptionToDB()
     insertUser()
     insertPrivateDetails()
     insertfavoritFood(favoritFoodselected)
@@ -157,7 +142,7 @@ export default function Form({email, logout}: IProps) {
     <div className={classes.root}>
       <AppBar position="static" color="default">
         <Tabs
-          value={value}
+          value={tabNumber}
           indicatorColor="primary"
           textColor="primary"
           variant="fullWidth"
@@ -167,22 +152,22 @@ export default function Form({email, logout}: IProps) {
           <Tab label="מאכלים אהובים" />
         </Tabs>
       </AppBar>
-        <TabPanel value={value} index={0} >
+        <TabPanel value={tabNumber} index={0} >
           <DetailsTab 
             setSelectedBeer = {setSelectedBeer}
             onSubmit={()=>{
-              setValue(1)
-              bringFoodList()
+              setTabNumber(1)
+              getfoodsList()
             }}
             setPrivateDetails= {setPrivateDetails}
             beerList = {beerList}
           />
         </TabPanel>
-        <TabPanel value={value} index={1} >
+        <TabPanel value={tabNumber} index={1} >
           <FoodTab 
             foodList = {foodList}
             onSubmit={submit}
-            setElseValueMainForm={setElseValue}
+            setNewFoodOptionValueMainForm={setNewFoodOptionValue}
           />
         </TabPanel>
     </div>
