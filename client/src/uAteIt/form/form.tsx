@@ -1,5 +1,6 @@
 import React from 'react';
 import { AppBar , Tabs, Tab } from '@material-ui/core';
+import axios from 'axios'
 
 import './style.scss'
 import useStyles from './formStyles'
@@ -17,7 +18,7 @@ export default function Form({email, logout}: IProps) {
   const [tabNumber, setTabNumber] = React.useState(0);
   const [foodList, setFoodList] = React.useState([]);
   const [beerList, setBeerList] = React.useState(0);
-  const [newFoodOptionValue, setNewFoodOptionValue] = React.useState('');
+  const [newFoodOptionObject, setNewFoodOptionObject] = React.useState({key: '', value:''});
   const [selectedBeer, setSelectedBeer] = React.useState('');
   const [privateDetails, setPrivateDetails] = React.useState({email: email, firstName:'', lastName:'', birthday:'', id:'', phone:''})
   const successResponseStatus = 200
@@ -26,78 +27,59 @@ export default function Form({email, logout}: IProps) {
   }, []);
 
   const getBeerList = async () => {
-    const response = await fetch('/beerList');
-    const res = await response.json();
-    if (response.status !== successResponseStatus) throw Error(res.message);
-    setBeerList(res)
+    axios.get('/beerList')
+    .then(response => {
+      if (response.status !== successResponseStatus) throw Error(response.statusText);
+        setBeerList(response.data)
+    });
   };
 
   const getfoodsList = async () => {
-    const response = await fetch('/favoritFoodOptions');
-    const body = await response.json();
-    if (response.status !== successResponseStatus) throw Error(body.message);
-    setFoodList(body)
+    axios.get('/favoritFoodOptions')
+    .then(response => {
+      if (response.status !== successResponseStatus) throw Error(response.statusText);
+      setFoodList(response.data)
+    });
   }
 
   const insertNewFoodOptionToDB = async () => {
-    const data =  newFoodOptionValue
-    await fetch('/favoritFoodOptions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
+console.log(newFoodOptionObject)
+    await axios.post('/favoritFoodOptions', {
+      key: newFoodOptionObject.key,
+      value: newFoodOptionObject.value
+    })
   }
 
   const insertUser = async () => {
-    const data =  {'email': email}
-
-    await fetch('/users', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
+    await axios.post('/users', {
+      email: email
+    })
   }
   
   const insertPrivateDetails = async () => {
-    const data = {...privateDetails, email: email}
-    await fetch('/privateDetails', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
+    await axios.post('/privateDetails', {
+      ...privateDetails,
+      email: email
+    })
   }
 
   const insertfavoritFood = async (favoritFoodselected: any) => {
     const filterSelectedFood = Object.fromEntries(Object.entries(favoritFoodselected).filter(([key, value]) => value === true))
     var selectedFood = Object.keys(filterSelectedFood).map((key) => [email, key]);
-    await fetch('/favoritFood', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(selectedFood),
-    });
+    await axios.post('/favoritFood', {
+      selectedFood
+    })
   }
 
   const insertFavoriteBeer = async () => {
-    const data = {email: email, favoriteFoodOrBeer: selectedBeer}
-    await fetch('/favoritBeer', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
+    await axios.post('/favoritBeer', {
+      email: email, 
+      favoriteFoodOrBeer: selectedBeer
+    })
   }
 
   const submit = async (favoritFoodselected: any) => {
-    newFoodOptionValue!=='' && insertNewFoodOptionToDB()
+    newFoodOptionObject.key!=='' && insertNewFoodOptionToDB()
     insertUser()
     insertPrivateDetails()
     insertfavoritFood(favoritFoodselected)
@@ -134,7 +116,7 @@ export default function Form({email, logout}: IProps) {
           <FoodTab 
             foodList = {foodList}
             onSubmit={submit}
-            setNewFoodOptionValueMainForm={setNewFoodOptionValue}
+            setNewFoodOptionObject={setNewFoodOptionObject}
           />
         </TabPanel>
     </div>

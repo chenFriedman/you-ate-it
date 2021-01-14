@@ -6,10 +6,10 @@ import useStyle from './foodTabStyle'
 interface IProps {
   onSubmit: (favoritFoodselected: any) => void
   foodList: any
-  setNewFoodOptionValueMainForm: (value: any) => void
+  setNewFoodOptionObject: (value: any) => void
 }
 
-export default function FoodTab({ onSubmit, foodList, setNewFoodOptionValueMainForm,
+export default function FoodTab({ onSubmit, foodList, setNewFoodOptionObject,
 }: IProps) {
 
   const emptyFoodFormState: any = { else: false }
@@ -36,7 +36,7 @@ export default function FoodTab({ onSubmit, foodList, setNewFoodOptionValueMainF
     if (foodFormState.else) {
       setNewFoodOptionValue(e.target.value)
       const elseObject = { "key": e.target.value, "value": e.target.value }
-      setNewFoodOptionValueMainForm(elseObject)
+      setNewFoodOptionObject(elseObject)
     }
   }
 
