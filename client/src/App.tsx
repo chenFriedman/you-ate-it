@@ -1,5 +1,5 @@
 import React from 'react';
-import YouAteIt from './uAteIt/youAteIt';
+import YouAteIt from './components/youAteIt';
 import './App.css';
 
 export const App: React.FC = () => {
