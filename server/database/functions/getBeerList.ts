@@ -9,7 +9,7 @@ const getBeerlist = async (req: Request, res: Response) => {
         if (!data) {
             return res.status(400).send(data)
         }
-        const beerList: any = data.allBeerlists.nodes.map((node: any) => (node.beername))
+        const beerList: Array<string> = data.allBeerlists.nodes.map((node: { beername: string }) => (node.beername))
         res.send(beerList)    
     } catch (error) {
         return res.status(400).send(error)

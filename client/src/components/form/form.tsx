@@ -9,15 +9,19 @@ import DetailsTab from '../details-tab/details-tab'
 import FoodTab from '../food-tab/food-tab'
 
 interface IProps {
-  email: any
+  email: string
   logout: () => void
+}
+
+interface foodList {
+  [key : string]: Boolean;
 }
 
 export default function Form({email, logout}: IProps) {
   const classes = useStyles();
   const [tabNumber, setTabNumber] = React.useState(0);
   const [foodList, setFoodList] = React.useState([]);
-  const [beerList, setBeerList] = React.useState(0);
+  const [beerList, setBeerList] = React.useState([]);
   const [newFoodOptionObject, setNewFoodOptionObject] = React.useState({key: '', value:''});
   const [selectedBeer, setSelectedBeer] = React.useState('');
   const [privateDetails, setPrivateDetails] = React.useState({email: email, firstName:'', lastName:'', birthday:'', id:'', phone:''})
@@ -43,7 +47,6 @@ export default function Form({email, logout}: IProps) {
   }
 
   const insertNewFoodOptionToDB = async () => {
-console.log(newFoodOptionObject)
     await axios.post('/favoritFoodOptions', {
       key: newFoodOptionObject.key,
       value: newFoodOptionObject.value
@@ -63,7 +66,7 @@ console.log(newFoodOptionObject)
     })
   }
 
-  const insertfavoritFood = async (favoritFoodselected: any) => {
+  const insertfavoritFood = async (favoritFoodselected: foodList) => {
     const filterSelectedFood = Object.fromEntries(Object.entries(favoritFoodselected).filter(([key, value]) => value === true))
     var selectedFood = Object.keys(filterSelectedFood).map((key) => [email, key]);
     await axios.post('/favoritFood', {
@@ -78,7 +81,7 @@ console.log(newFoodOptionObject)
     })
   }
 
-  const submit = async (favoritFoodselected: any) => {
+  const submit = async (favoritFoodselected: foodList) => {
     newFoodOptionObject.key!=='' && insertNewFoodOptionToDB()
     insertUser()
     insertPrivateDetails()

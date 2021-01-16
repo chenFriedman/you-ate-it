@@ -4,8 +4,8 @@ import { Box } from '@material-ui/core';
 interface TabPanelProps {
   children?: React.ReactNode;
   dir?: string;
-  index: any;
-  value: any;
+  index: number;
+  value: number;
 }
 
 const TabPanel = (props: TabPanelProps) => {

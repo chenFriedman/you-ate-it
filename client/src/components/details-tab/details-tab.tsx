@@ -3,24 +3,32 @@ import moment from 'moment'
 import { useForm } from 'react-hook-form';
 
 import useStyles from './detailsTabStyle'
+interface userData {
+  beer: string;
+  birthdate: string;
+  firstName: string;
+  id: string;
+  lastName: string;
+  phone: string;
+}
 
 interface IProps {
   onSubmit: () => void
   setPrivateDetails: (privateDetails: any) => void
-  setSelectedBeer: (value: string) => void
-  beerList: any
+  setSelectedBeer: (value: string ) => void
+  beerList: Array<string>
 }
 
 export const DetailsTab = ({ onSubmit, setPrivateDetails, setSelectedBeer, beerList }: IProps) => {
   const [toShowBeerField, setToShowBeerField] = React.useState(false)
   const classes = useStyles();
 
-  const checkAllowdBeer = (birtday: any) => {
+  const checkAllowdBeer = (birtday: string ) => {
     return moment().diff(birtday, 'years') > 18 ? setToShowBeerField(true) : setToShowBeerField(false)
   }
 
   const renderBeerOptions = () => {
-    const options = beerList.map((beerOption: any) => (
+    const options = beerList.map((beerOption: string) => (
       <option key={beerOption} value={beerOption}>{beerOption}</option>
     ));
 
@@ -37,9 +45,9 @@ export const DetailsTab = ({ onSubmit, setPrivateDetails, setSelectedBeer, beerL
   }
   const nameErrorValidation = /^[A-Za-z\u0590-\u05fe]+$/
   const { register, handleSubmit, errors } = useForm();
-  const onSubmitt = (data: any) => {
+  const onSubmitt = (data: userData ) => {
     setPrivateDetails(data)
-    setSelectedBeer(data.beer)
+    data.beer && setSelectedBeer(data.beer)
     onSubmit()
   };
   const nameRef = register({ pattern: nameErrorValidation, maxLength: 50, required: true })
@@ -65,7 +73,7 @@ export const DetailsTab = ({ onSubmit, setPrivateDetails, setSelectedBeer, beerL
 
       <input
         name='birthdate'
-        type='date' ref={requiredRef}
+        type='Date' ref={requiredRef}
         onChange={e => { checkAllowdBeer(e.target.value) }}
       />
       {errors.birthdate && <span>לא ניתן לבחור תאריך עתידי</span>}

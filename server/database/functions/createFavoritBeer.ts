@@ -4,7 +4,6 @@ import { Request, Response } from 'express';
 import { createFavoritBeerMutation } from '../mutations/createFavoritBeerMutation'
 
 const createFavoritBeer = async (req: Request, res: Response) => {
-    console.log('in createFavoritBeer')
     try {
         const data = await request(String(process.env.GRAPHQL_URL), createFavoritBeerMutation, {
             email: req.body.email,

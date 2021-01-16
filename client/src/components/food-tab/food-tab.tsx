@@ -3,16 +3,26 @@ import { Checkbox, FormControlLabel, FormControl, TextField, Button } from '@mat
 
 import useStyle from './foodTabStyle'
 
+interface foodList {
+  [key : string]: Boolean;
+}
+
+interface foodArrayObj {
+  id: Number;
+  value: string;
+  key: string
+} 
+
 interface IProps {
-  onSubmit: (favoritFoodselected: any) => void
-  foodList: any
-  setNewFoodOptionObject: (value: any) => void
+  onSubmit: (favoritFoodselected: foodList) => void
+  foodList: Array<foodArrayObj>
+  setNewFoodOptionObject: (value: {key: string; value: string}) => void
 }
 
 export default function FoodTab({ onSubmit, foodList, setNewFoodOptionObject,
 }: IProps) {
 
-  const emptyFoodFormState: any = { else: false }
+  const emptyFoodFormState: foodList = { else: false }
   const [foodFormState, setFoodFormState] = React.useState(emptyFoodFormState)
   const [newFoodOptionValue, setNewFoodOptionValue] = React.useState('')
   const [isFormValid, setIsFormValid] = React.useState(false)
@@ -42,7 +52,7 @@ export default function FoodTab({ onSubmit, foodList, setNewFoodOptionObject,
 
   const submit = () => {
     if (isFormValid) {
-      let temp: any = { foodFormState }
+      let temp: foodList = foodFormState
       if (foodFormState.else) {
         let tmpelseValue = newFoodOptionValue
         temp[tmpelseValue] = true

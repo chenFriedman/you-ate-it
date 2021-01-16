@@ -19,10 +19,8 @@ const app = express();
 const port = process.env.PORT;
 const postgres = process.env.DATABASE_URL;
 
-console.log(`Your port is ${port}`);
-
 app.use(postgraphile(
-    "postgres://oactaquy:SVmN2rdJwsp6yAFIpD-9p3kBtMpkbTvy@suleiman.db.elephantsql.com:5432/oactaquy",
+    postgres,
     {
         graphiql: true,
         enhanceGraphiql: true,

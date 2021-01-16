@@ -8,8 +8,9 @@
     "start": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
   },
   "dependencies": {
-    "@types/node": "^14.14.20",
+    "@types/node": "^14.14.21",
     "@types/pg-format": "^1.0.1",
+    "any": "^1.0.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
